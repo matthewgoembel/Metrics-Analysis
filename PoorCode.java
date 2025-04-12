@@ -1,4 +1,3 @@
-
 public class UserManager {
     public void process() {
         // Long method with nested logic, duplication, and no separation of concerns
