@@ -1,8 +1,8 @@
 /**
- * A concise, well-structured Sudoku solver.
- * Designed to minimize code smells and technical debt.
+ * SudokuElegant is a concise, well-structured Sudoku solver.
+ * It uses clear naming, avoids code duplication, and minimizes complexity.
  */
-public class SudokuRefined {
+public class SudokuSolver {
 
     private static final int SIZE = 9;
 
@@ -19,54 +19,56 @@ public class SudokuRefined {
             {0, 0, 0, 0, 8, 0, 0, 7, 9}
         };
 
-        if (solveSudoku(board)) {
-            printBoard(board);
+        if (solve(board)) {
+            displayBoard(board);
         } else {
-            System.out.println("No valid solution found.");
+            System.out.println("No solution exists.");
         }
     }
 
     /**
-     * Recursively solves the Sudoku puzzle using a backtracking approach.
+     * Recursively solves the Sudoku puzzle using a standard backtracking approach.
      *
-     * @param board the Sudoku grid
-     * @return true if solved, false if no solution
+     * @param board the 9x9 Sudoku grid
+     * @return true if the puzzle is solved, false otherwise
      */
-    public static boolean solveSudoku(int[][] board) {
+    public static boolean solve(int[][] board) {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (board[row][col] == 0) {
                     for (int num = 1; num <= SIZE; num++) {
                         if (isValid(board, row, col, num)) {
                             board[row][col] = num;
-                            if (solveSudoku(board)) return true;
-                            board[row][col] = 0;
+                            if (solve(board)) {
+                                return true;
+                            }
+                            board[row][col] = 0; // Reset on backtrack
                         }
                     }
-                    return false; // No valid number found
+                    return false; // No valid number found in this position
                 }
             }
         }
-        return true; // All cells filled
+        return true; // Puzzle solved, all cells are non-zero
     }
 
     /**
-     * Checks if placing 'num' at board[row][col] is valid according to Sudoku rules.
+     * Determines if placing a given number in the specified cell is valid.
      *
      * @param board the Sudoku grid
-     * @param row   the current row index
-     * @param col   the current col index
-     * @param num   the candidate number (1-9)
-     * @return true if valid placement, false otherwise
+     * @param row   the row index
+     * @param col   the column index
+     * @param num   the candidate number to place (1-9)
+     * @return true if placement is valid, false otherwise
      */
-    private static boolean isValid(int[][] board, int row, int col, int num) {
-        // Row and column check
-        for (int i = 0; i < SIZE; i++) {
-            if (board[row][i] == num || board[i][col] == num) {
+    public static boolean isValid(int[][] board, int row, int col, int num) {
+        // Check the row and column for the number
+        for (int index = 0; index < SIZE; index++) {
+            if (board[row][index] == num || board[index][col] == num) {
                 return false;
             }
         }
-        // Sub-box check
+        // Check the 3x3 sub-grid for the number
         int boxRowStart = row - row % 3;
         int boxColStart = col - col % 3;
         for (int r = 0; r < 3; r++) {
@@ -80,16 +82,18 @@ public class SudokuRefined {
     }
 
     /**
-     * Prints the Sudoku board in a simple format.
+     * Assembles the board into a string and prints it in one go.
      *
      * @param board the Sudoku grid
      */
-    private static void printBoard(int[][] board) {
+    public static void displayBoard(int[][] board) {
+        StringBuilder sb = new StringBuilder();
         for (int[] row : board) {
-            for (int val : row) {
-                System.out.print(val + " ");
+            for (int num : row) {
+                sb.append(num).append(" ");
             }
-            System.out.println();
+            sb.append(System.lineSeparator());
         }
+        System.out.print(sb.toString());
     }
 }
