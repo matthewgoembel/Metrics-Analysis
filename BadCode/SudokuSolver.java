@@ -46,11 +46,9 @@ public class SudokuSolver {
         for (int i = 0; i < 9; i++) {
             if (board[row][i] == number) return false;
         }
-
         for (int i = 0; i < 9; i++) {
             if (board[i][col] == number) return false;
         }
-
         int startRow = row - row % 3;
         int startCol = col - col % 3;
         for (int i = startRow; i < startRow + 3; i++) {
@@ -59,9 +57,17 @@ public class SudokuSolver {
             }
         }
 
-        // Duplicate code: redundant checks
+        // Intentional duplication
         for (int i = 0; i < 9; i++) {
             if (board[row][i] == number) return false;
+        }
+        for (int i = 0; i < 9; i++) {
+            if (board[i][col] == number) return false;
+        }
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (board[i][j] == number) return false;
+            }
         }
 
         return true;
