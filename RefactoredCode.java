@@ -1,4 +1,3 @@
-
 public class UserManager {
     public void process() {
         for (int i = 1; i <= 20; i++) {
