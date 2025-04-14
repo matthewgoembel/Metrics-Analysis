@@ -2,7 +2,7 @@
  * SudokuElegant is a concise, well-structured Sudoku solver.
  * It uses clear naming, avoids code duplication, and minimizes complexity.
  */
-public class SudokuSolver {
+public class BestSudokuSolverEver {
 
     private static final int SIZE = 9;
 
